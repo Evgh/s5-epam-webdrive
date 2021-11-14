@@ -25,7 +25,6 @@ namespace s5_epam_webdrive.Pages
 
         public void OpenPage()
         {
-            //_driver.Navigate().GoToUrl(_homepage);
             _driver.Url = _homepage;
         }
 
