@@ -2,52 +2,15 @@
 using OpenQA.Selenium.Support.UI;
 using System;
 
-namespace _5ERAT8.Pages
+namespace s5_epam_webdrive.Pages
 {
-    public class YopMailPage
+    public class YopMailPage : Bases.BasePage
     {
         private const string HomePage = "https://yopmail.com/ru/";
-        private IWebDriver _driver;
 
-        public YopMailPage(IWebDriver driver)
+        public YopMailPage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
         }
-        protected DefaultWait<IWebDriver> FluentWait()
-        {
-            var fluentWait = new DefaultWait<IWebDriver>(_driver)
-            {
-                Timeout = TimeSpan.FromSeconds(600),
-                PollingInterval = TimeSpan.FromSeconds(1)
-            };
-            return fluentWait;
-        }
-
-        protected IWebElement WaitUntilVisible(By by)
-        {
-            var fluentWait = FluentWait();
-            fluentWait.IgnoreExceptionTypes(typeof(Exception));
-            return fluentWait.Until(driver =>
-            {
-                IWebElement tempElement = _driver.FindElement(by);
-                return (tempElement.Displayed) ? tempElement : null;
-            });
-        }
-
-        protected IWebElement WaitUntilClickable(By by)
-        {
-            var fluentWait = FluentWait();
-            fluentWait.IgnoreExceptionTypes(typeof(Exception));
-            return fluentWait.Until(driver =>
-            {
-                IWebElement tempElement = _driver.FindElement(by);
-                return (tempElement.Displayed && tempElement.Enabled) ? tempElement : null;
-            });
-        }
-
-        protected void WaitAndClick(By by) => WaitUntilClickable(by).Click();
-        protected static By ByXPathTagWithText(string tagName, string text) => By.XPath($"//{tagName}[text()='{text}']");
-
 
         public YopMailPage OpenPage()
         {
@@ -86,5 +49,25 @@ namespace _5ERAT8.Pages
             _driver.SwitchTo().DefaultContent();
             return price;
         }
+
+
+        #region Private and protected methods 
+        protected IWebElement WaitUntilVisible(By by)
+        {
+            var fluentWait = FluentWait();
+            fluentWait.IgnoreExceptionTypes(typeof(Exception));
+            return fluentWait.Until(driver =>
+            {
+                IWebElement tempElement = _driver.FindElement(by);
+                return (tempElement.Displayed) ? tempElement : null;
+            });
+        }
+
+        protected static By ByXPathTagWithText(string tagName, string text)
+        {
+            return By.XPath($"//{tagName}[text()='{text}']");
+        }
+
+        #endregion
     }
 }

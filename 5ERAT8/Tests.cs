@@ -7,9 +7,9 @@ using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Threading;
-using _5ERAT8.Pages;
+using s5_epam_webdrive.Pages;
 
-namespace _5ERAT8
+namespace s5_epam_webdrive
 {
     [TestFixture]
     class Test
@@ -96,6 +96,19 @@ namespace _5ERAT8
             var actualPrice = yopMailPageObject.RefreshMail().GetEstimatedPriceFromEmail();
 
             Assert.AreEqual(expectedPrice, actualPrice);
+        }
+
+        [Test]
+        public void TestMetaTrader()
+        {
+            var tradingPage = new TradingPage(driver);
+            tradingPage.OpenPage();
+            tradingPage.OpenLoginWindow();
+            tradingPage.InputLogin();
+            tradingPage.InputPasswordAndConfirm();
+            tradingPage.GoToTrading();
+
+            Assert.IsTrue(tradingPage.IsUnawailabilityMessageShownCorrectly());
         }
     }
 }

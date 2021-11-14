@@ -1,14 +1,9 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
-namespace _5ERAT8.Pages
+namespace s5_epam_webdrive.Pages
 {
-    public class CreateNewPastePage
+    public class CreateNewPastePage : Bases.BasePage
     {
-
-        private IWebDriver _driver;
-        private WebDriverWait _wait;
-
         public IWebElement CodeInputForm => _wait.Until(_driver => _driver.FindElement(By.CssSelector("textarea#postform-text")));
         public IWebElement PasteExpirationDropdown => _wait.Until(_driver => _driver.FindElement(By.CssSelector("#w0 > div.post-form__bottom > div.post-form__left > div.form-group.field-postform-expiration > div > span")));
         public IWebElement PasteExpirationOption => _wait.Until(_driver => _driver.FindElement(By.XPath("//*[contains(@id,'10M')]")));
@@ -18,10 +13,8 @@ namespace _5ERAT8.Pages
         public IWebElement PasteNameForm => _wait.Until(_driver => _driver.FindElement(By.CssSelector("input#postform-name")));
         public IWebElement CreateNewPasteButton => _wait.Until(_driver => _driver.FindElement(By.CssSelector("button")));
 
-        public CreateNewPastePage(IWebDriver driver)
+        public CreateNewPastePage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
-            _wait = new WebDriverWait(_driver, System.TimeSpan.FromSeconds(15));
         }
 
         public void OpenPage()

@@ -56,8 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\Bases\BasePage.cs" />
     <Compile Include="Pages\CreateNewPastePage.cs" />
     <Compile Include="Pages\GoogleCloudPage.cs" />
+    <Compile Include="Pages\TradingPage.cs" />
     <Compile Include="Pages\PasteCreatedPage.cs" />
     <Compile Include="Pages\YopMailPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

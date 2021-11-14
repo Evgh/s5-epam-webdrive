@@ -1,17 +1,12 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using System;
 
-namespace _5ERAT8.Pages
+namespace s5_epam_webdrive.Pages
 {
-    class GoogleCloudPage
+    class GoogleCloudPage : Bases.BasePage
     {
         private const string HomePage = "https://cloud.google.com/";
-        private IWebDriver _driver;
-
-        public GoogleCloudPage(IWebDriver driver)
+        public GoogleCloudPage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
         }
 
         #region Public methods
@@ -128,35 +123,6 @@ namespace _5ERAT8.Pages
             emailField.SendKeys(email);
             WaitAndClick(By.XPath("//button[@aria-label = 'Send Email']"));
             return this;
-        }
-
-        #endregion
-
-        #region Private and protected methods
-        protected DefaultWait<IWebDriver> FluentWait()
-        {
-            var fluentWait = new DefaultWait<IWebDriver>(_driver)
-            {
-                Timeout = TimeSpan.FromSeconds(600),
-                PollingInterval = TimeSpan.FromSeconds(1)
-            };
-            return fluentWait;
-        }
-
-        protected IWebElement WaitUntilClickable(By by)
-        {
-            var fluentWait = FluentWait();
-            fluentWait.IgnoreExceptionTypes(typeof(Exception));
-            return fluentWait.Until(driver =>
-            {
-                IWebElement tempElement = _driver.FindElement(by);
-                return (tempElement.Displayed && tempElement.Enabled) ? tempElement : null;
-            });
-        }
-
-        protected void WaitAndClick(By by)
-        {
-            WaitUntilClickable(by).Click();
         }
 
         #endregion
