@@ -13,10 +13,11 @@ namespace s5_epam_webdrive.Pages
         public IWebElement LoginInput => _wait.Until(_driver => _driver.FindElement(By.Id("input-log-in1")));
         public IWebElement PassordInput => _wait.Until(_driver => _driver.FindElement(By.Id("input-log-in2")));
         public IWebElement GoToTradingButton => _wait.Until(_driver => _driver.FindElement(By.ClassName("welcome__btn")));
-        public IWebElement TradingIsUnawailableLabel => _wait.Until(_driver => _driver.FindElement(By.CssSelector("#modal_close_time > .pop-up.pop-up-log-in.pop-up-setting > pop-up-setting__title")));
+        public IWebElement TradingIsUnawailableLabel => _wait.Until(_driver => _driver.FindElement(By.CssSelector("#modal_close_time > .pop-up.pop-up-log-in.pop-up-setting > .pop-up-setting__title")));
 
-        public bool IsUnavailabilityMessageShown => !string.IsNullOrEmpty(TradingIsUnawailableLabel.Text);
-        public bool IsPlatformWorking =>  IsTodayIsWorkDay() ? IsNowIsWorkTime() : false;  
+        public bool IsInaccessibilityMessageShown => !string.IsNullOrEmpty(TradingIsUnawailableLabel.Text);
+        public bool IsPlatformWorking =>  IsTodayIsWorkDay() ? IsNowIsWorkTime() : false;
+        public bool IsInaccessibilityMessageShownCorrectly => IsInaccessibilityMessageShown ^ IsPlatformWorking;
 
         public TradingPage(IWebDriver driver) : base(driver)
         {
@@ -48,13 +49,9 @@ namespace s5_epam_webdrive.Pages
             GoToTradingButton.Click();
         }
 
-        public bool IsUnawailabilityMessageShownCorrectly()
-        {
-            return !(IsPlatformWorking ^ IsUnavailabilityMessageShown);
-        }
 
         private bool IsTodayIsWorkDay() => DateTime.Now.DayOfWeek >= (DayOfWeek)1 && DateTime.Now.DayOfWeek <= (DayOfWeek)5;
 
-        private bool IsNowIsWorkTime() => DateTime.Now.Hour >= 16;
+        private bool IsNowIsWorkTime() => DateTime.Now.Hour >= 4 && DateTime.Now.Hour <= 18;
     }
 }

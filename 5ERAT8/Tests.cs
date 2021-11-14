@@ -99,7 +99,7 @@ namespace s5_epam_webdrive
         }
 
         [Test]
-        public void TestMetaTrader()
+        public void TestTrader()
         {
             var tradingPage = new TradingPage(driver);
             tradingPage.OpenPage();
@@ -108,7 +108,7 @@ namespace s5_epam_webdrive
             tradingPage.InputPasswordAndConfirm();
             tradingPage.GoToTrading();
 
-            Assert.IsTrue(tradingPage.IsUnawailabilityMessageShownCorrectly());
+            Assert.IsTrue(tradingPage.IsInaccessibilityMessageShownCorrectly);
         }
     }
 }
