@@ -16,7 +16,7 @@ namespace s5_epam_webdrive
     {
         WebDriver driver;
 
-        [OneTimeSetUp]
+        [SetUp]
         public void Startup()
         {
             driver = new EdgeDriver();
@@ -99,7 +99,7 @@ namespace s5_epam_webdrive
         }
 
         [Test]
-        public void TestTrader()
+        public void TestInaccessibilityMessage()
         {
             var tradingPage = new TradingPage(driver);
             tradingPage.OpenPage();
@@ -109,6 +109,12 @@ namespace s5_epam_webdrive
             tradingPage.GoToTrading();
 
             Assert.IsTrue(tradingPage.IsInaccessibilityMessageShownCorrectly);
+        }
+
+        [Test]
+        public void TestTradingUp()
+        {
+            Assert.IsTrue(true);
         }
     }
 }

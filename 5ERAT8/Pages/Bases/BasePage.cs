@@ -12,7 +12,7 @@ namespace s5_epam_webdrive.Pages.Bases
         public BasePage(IWebDriver driver)
         {
             _driver = driver;
-            _wait = new WebDriverWait(driver, TimeSpan.FromSeconds(1000));
+            _wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
         }
 
 

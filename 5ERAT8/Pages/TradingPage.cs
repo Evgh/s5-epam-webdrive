@@ -8,15 +8,19 @@ namespace s5_epam_webdrive.Pages
         private const string _homepage = @"https://inbar.best/";
         private const string _login = "lines.and.polosky@gmail.com";
         private const string _password = "rUYiPEbUpLYze";
+        private string _inaccessibilityMessageBuffer;
 
         public IWebElement LogInButton => _wait.Until(_driver => _driver.FindElement(By.CssSelector(".main-header__btn.btn.btn--black.p-open")));
         public IWebElement LoginInput => _wait.Until(_driver => _driver.FindElement(By.Id("input-log-in1")));
         public IWebElement PassordInput => _wait.Until(_driver => _driver.FindElement(By.Id("input-log-in2")));
         public IWebElement GoToTradingButton => _wait.Until(_driver => _driver.FindElement(By.ClassName("welcome__btn")));
         public IWebElement TradingIsUnawailableLabel => _wait.Until(_driver => _driver.FindElement(By.CssSelector("#modal_close_time > .pop-up.pop-up-log-in.pop-up-setting > .pop-up-setting__title")));
+        public IWebElement NoRiskManagementButton => _wait.Until(_driver => _driver.FindElement(By.CssSelector(".overlay.a-open.overlay--active > .pop-up.pop-up-log-in.pop-up-setting > .pop-up-setting__wrapper > .btn.btn--black")));
+        public IWebElement TradingButtonUp => _wait.Until(_driver => _driver.FindElement(By.CssSelector(".trading-btn.trading-btn2.trading-btn--up.content_btn_call.content_btn_call2")));
 
-        public bool IsInaccessibilityMessageShown => !string.IsNullOrEmpty(TradingIsUnawailableLabel.Text);
-        public bool IsPlatformWorking =>  IsTodayIsWorkDay() ? IsNowIsWorkTime() : false;
+
+        public bool IsInaccessibilityMessageShown => TryToGetInaccessibilityMessage(out _inaccessibilityMessageBuffer) && !string.IsNullOrEmpty(_inaccessibilityMessageBuffer);
+        public bool IsPlatformWorking =>  IsTodayIsWorkDay && IsNowIsWorkTime;
         public bool IsInaccessibilityMessageShownCorrectly => IsInaccessibilityMessageShown ^ IsPlatformWorking;
 
         public TradingPage(IWebDriver driver) : base(driver)
@@ -46,11 +50,40 @@ namespace s5_epam_webdrive.Pages
         public void GoToTrading()
         {
             GoToTradingButton.Click();
+
+            try
+            {
+                NoRiskManagementButton.Click();
+            }
+            catch (OpenQA.Selenium.WebDriverTimeoutException e)
+            {
+                Console.WriteLine("Risk management was already set");
+            }
+            catch (OpenQA.Selenium.UnhandledAlertException e)
+            {
+                if (e.AlertText == "Без ограничений")
+                    return;
+                else
+                    throw;
+            }
         }
 
+        public bool TryToGetInaccessibilityMessage(out string _inaccessibilityMessage)
+        {
+            try
+            {
+                IWebElement TradingIsUnawailableLabel = _wait.Until(_driver => _driver.FindElement(By.CssSelector("#modal_close_time > .pop-up.pop-up-log-in.pop-up-setting > .pop-up-setting__title")));
+                _inaccessibilityMessage = TradingIsUnawailableLabel.Text;
+                return true;
+            }
+            catch(OpenQA.Selenium.WebDriverTimeoutException e)
+            {
+                _inaccessibilityMessage = string.Empty;
+                return false;
+            }
+        }
 
-        private bool IsTodayIsWorkDay() => DateTime.Now.DayOfWeek >= (DayOfWeek)1 && DateTime.Now.DayOfWeek <= (DayOfWeek)5;
-
-        private bool IsNowIsWorkTime() => DateTime.Now.Hour >= 4 && DateTime.Now.Hour <= 18;
+        private bool IsTodayIsWorkDay => DateTime.Now.DayOfWeek >= (DayOfWeek)1 && DateTime.Now.DayOfWeek <= (DayOfWeek)5;
+        private bool IsNowIsWorkTime => DateTime.Now.Hour >= 4 && DateTime.Now.Hour <= 23;
     }
 }
