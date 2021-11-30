@@ -21,8 +21,8 @@ namespace s5_epam_webdrive
         {
             driver = new EdgeDriver();
             driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(15);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(100);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(100);
         }
 
         [Test]
@@ -114,7 +114,8 @@ namespace s5_epam_webdrive
         [Test]
         public void TestTradingUp()
         {
-            Assert.IsTrue(true);
+            var tradingPage = new TradingPage(driver);
+            tradingPage.OpenPage();
         }
     }
 }
