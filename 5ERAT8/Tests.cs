@@ -116,6 +116,11 @@ namespace s5_epam_webdrive
         {
             var tradingPage = new TradingPage(driver);
             tradingPage.OpenPage();
+            tradingPage.OpenLoginWindow();
+            tradingPage.InputLogin();
+            tradingPage.InputPasswordAndConfirm();
+            tradingPage.GoToTrading();
+            tradingPage.TradeUp();
         }
     }
 }
