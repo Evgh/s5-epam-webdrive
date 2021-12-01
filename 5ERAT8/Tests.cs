@@ -6,7 +6,9 @@ using OpenQA.Selenium.Support;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Linq;
 using System.Threading;
+using System.Text.RegularExpressions;
 using s5_epam_webdrive.Pages;
 
 namespace s5_epam_webdrive
@@ -21,8 +23,8 @@ namespace s5_epam_webdrive
         {
             driver = new EdgeDriver();
             driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(100);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(100);
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(200);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(200);
         }
 
         [Test]
@@ -121,6 +123,8 @@ namespace s5_epam_webdrive
             tradingPage.InputPasswordAndConfirm();
             tradingPage.GoToTrading();
             tradingPage.TradeUp();
+            Thread.Sleep(5000);            
+            tradingPage.InitializeLastUpPositionData();
         }
     }
 }

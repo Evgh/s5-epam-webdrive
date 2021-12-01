@@ -12,7 +12,7 @@ namespace s5_epam_webdrive.Pages.Bases
         public BasePage(IWebDriver driver)
         {
             _driver = driver;
-            _wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            _wait = new WebDriverWait(driver, TimeSpan.FromSeconds(200));
         }
 
 
@@ -21,7 +21,7 @@ namespace s5_epam_webdrive.Pages.Bases
         {
             var fluentWait = new DefaultWait<IWebDriver>(_driver)
             {
-                Timeout = TimeSpan.FromSeconds(30),
+                Timeout = TimeSpan.FromSeconds(200),
                 PollingInterval = TimeSpan.FromSeconds(1)
             };
             return fluentWait;
