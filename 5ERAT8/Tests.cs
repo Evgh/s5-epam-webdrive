@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Text.RegularExpressions;
 using s5_epam_webdrive.Pages;
+using s5_epam_webdrive.Helpers;
 
 namespace s5_epam_webdrive
 {
@@ -122,9 +123,19 @@ namespace s5_epam_webdrive
             tradingPage.InputLogin();
             tradingPage.InputPasswordAndConfirm();
             tradingPage.GoToTrading();
+
+            var expectedTotal = tradingPage.CurrentTotal;
+            var expectedDateTime = DateTime.Now.TruncateSecond().TruncateMillisecond();
+ 
             tradingPage.TradeUp();
             Thread.Sleep(5000);            
             tradingPage.InitializeLastUpPositionData();
+
+            var assertAccumulator = new AssertAccumulator();
+            assertAccumulator.Accumulate(() => Assert.AreEqual(expectedTotal, tradingPage.LastUpPositionTotalLabel.Text));
+            assertAccumulator.Accumulate(() => Assert.AreEqual(expectedDateTime, tradingPage.LastUpPositionOpenTime));
+            assertAccumulator.Release();
+
         }
     }
 }
