@@ -102,7 +102,7 @@ namespace s5_epam_webdrive
         }
 
         [Test]
-        public void TestInaccessibilityMessage()
+        public void IsInaccessibilityMessageShownCorrectly_ReturnsTrue()
         {
             var tradingPage = new TradingPage(driver);
             tradingPage.OpenPage();
@@ -115,7 +115,7 @@ namespace s5_epam_webdrive
         }
 
         [Test]
-        public void TestTradingUp()
+        public void TradeUp_DefaultValidValues_ReturnsTrue()
         {
             var tradingPage = new TradingPage(driver);
             tradingPage.OpenPage();
@@ -135,7 +135,6 @@ namespace s5_epam_webdrive
             assertAccumulator.Accumulate(() => Assert.AreEqual(expectedTotal, tradingPage.LastUpPositionTotalLabel.Text));
             assertAccumulator.Accumulate(() => Assert.AreEqual(expectedDateTime, tradingPage.LastUpPositionOpenTime));
             assertAccumulator.Release();
-
         }
     }
 }
