@@ -80,7 +80,7 @@ namespace s5_epam_webdrive.Pages
                 _inaccessibilityMessage = TradingIsUnawailableLabel.Text;
                 return true;
             }
-            catch(OpenQA.Selenium.WebDriverTimeoutException e)
+            catch(OpenQA.Selenium.WebDriverException e)
             {
                 _inaccessibilityMessage = string.Empty;
                 return false;
